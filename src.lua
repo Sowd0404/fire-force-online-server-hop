@@ -11,7 +11,8 @@ success, result = pcall(function()
 end)
 if not success then writefile("servers.txt", "[]") end 
 servers = httpService:JSONDecode(readfile("servers.txt"))
-return function hopServers(recursive)
+
+local function hopServers(recursive)
     table.insert(servers, game.JobId)
     if recursive then 
         response = httpService:JSONDecode(game:HttpGet(url .. "&cursor=" .. (response.nextPageCursor)))
@@ -31,4 +32,4 @@ return function hopServers(recursive)
     writefile("servers.txt", httpService:JSONEncode(servers))
     teleportService:TeleportToPlaceInstance(game.PlaceId, current.id)
 end
-
+return hopServers
